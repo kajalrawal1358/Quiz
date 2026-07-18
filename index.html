@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Query Analysis MCQs</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --background: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #202124;
+            --border: #dadce0;
+            --success: #137333;
+            --success-bg: #e6f4ea;
+            --error: #c5221f;
+            --error-bg: #fce8e6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .instruction-box {
+            background-color: #e8f0fe;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background: #f1f3f4;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        table.data-table {
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        table.data-table th, table.data-table td {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            text-align: left;
+        }
+        table.data-table th {
+            background-color: #f1f3f4;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            margin-bottom: 10px;
+        }
+
+        .option-item label {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .option-item label:hover {
+            background-color: #f8f9fa;
+        }
+
+        .option-item input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background 0.2s;
+            margin-top: 30px;
+        }
+
+        .submit-btn:hover {
+            background-color: #1557b0;
+        }
+
+        /* Spreadsheet Results Styles */
+        .results-section {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .score-summary {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sheet-container {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .sheet-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            background-color: white;
+        }
+
+        .sheet-table th {
+            background-color: #f8f9fa;
+            color: #5f6368;
+            font-weight: normal;
+            border: 1px solid #dcdcdc;
+            padding: 6px 10px;
+            text-align: left;
+            user-select: none;
+        }
+
+        .sheet-table td {
+            border: 1px solid #e2e3e5;
+            padding: 8px 10px;
+            vertical-align: middle;
+        }
+
+        .sheet-table tr:hover {
+            background-color: #f1f3f4;
+        }
+
+        .row-num-col {
+            background-color: #f8f9fa;
+            color: #777;
+            text-align: center !important;
+            width: 30px;
+            font-weight: bold;
+            border-right: 2px solid #dcdcdc !important;
+        }
+
+        .status-pass {
+            background-color: var(--success-bg);
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .status-fail {
+            background-color: var(--error-bg);
+            color: var(--error);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>SQL Query Analysis Challenge</h1>
+        <p>Test your knowledge on medium to advanced database logic concepts.</p>
+    </div>
+
+    <div class="instruction-box">
+        <strong>Instructions:</strong> Choose the most appropriate answer for each scenario. Results will generate a mock spreadsheet analysis upon submission.
+    </div>
+
+    <form id="quizForm">
+        <!-- Q1 -->
+        <div class="question-card">
+            <div class="question-number">Question 1</div>
+            <div class="question-text">Consider the following table structure:</div>
+            <table class="data-table">
+                <thead><tr><th>EmpID</th><th>Name</th><th>Salary</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Rahul</td><td>50000</td></tr>
+                    <tr><td>2</td><td>Priya</td><td>70000</td></tr>
+                    <tr><td>3</td><td>Aman</td><td>50000</td></tr>
+                    <tr><td>4</td><td>Neha</td><td>90000</td></tr>
+                </tbody>
+            </table>
+            <div class="question-text">What will be the output of the following query?</div>
+            <pre>SELECT COUNT(DISTINCT Salary) FROM Employee;</pre>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q1" value="A"> A. 2</label></li>
+                <li class="option-item"><label><input type="radio" name="q1" value="B"> B. 3</label></li>
+                <li class="option-item"><label><input type="radio" name="q1" value="C"> C. 4</label></li>
+                <li class="option-item"><label><input type="radio" name="q1" value="D"> D. Error</label></li>
+            </ul>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question-card">
+            <div class="question-number">Question 2</div>
+            <div class="question-text">What employees will be displayed by this statement?</div>
+            <pre>SELECT Name FROM Employee WHERE Salary > (SELECT AVG(Salary) FROM Employee);</pre>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q2" value="A"> A. Rahul</label></li>
+                <li class="option-item"><label><input type="radio" name="q2" value="B"> B. Rahul and Aman</label></li>
+                <li class="option-item"><label><input type="radio" name="q2" value="C"> C. Priya and Neha</label></li>
+                <li class="option-item"><label><input type="radio" name="q2" value="D"> D. All employees</label></li>
+            </ul>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-card">
+            <div class="question-number">Question 3</div>
+            <div class="question-text">What will be the output of the following query?</div>
+            <pre>SELECT * FROM Employee ORDER BY Salary DESC LIMIT 2;</pre>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q3" value="A"> A. Employees with the two lowest salaries</label></li>
+                <li class="option-item"><label><input type="radio" name="q3" value="B"> B. Employees with the two highest salaries</label></li>
+                <li class="option-item"><label><input type="radio" name="q3" value="C"> C. Two random employees</label></li>
+                <li class="option-item"><label><input type="radio" name="q3" value="D"> D. Error</label></li>
+            </ul>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question-card">
+            <div class="question-number">Question 4</div>
+            <div class="question-text">Which JOIN returns all records from the left table and only the matching records from the right table?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q4" value="A"> A. INNER JOIN</label></li>
+                <li class="option-item"><label><input type="radio" name="q4" value="B"> B. RIGHT JOIN</label></li>
+                <li class="option-item"><label><input type="radio" name="q4" value="C"> C. LEFT JOIN</label></li>
+                <li class="option-item"><label><input type="radio" name="q4" value="D"> D. CROSS JOIN</label></li>
+            </ul>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question-card">
+            <div class="question-number">Question 5</div>
+            <pre>SELECT Department, COUNT(*) FROM Employee GROUP BY Department HAVING COUNT(*) > 3;</pre>
+            <div class="question-text">What is the purpose of the HAVING clause?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q5" value="A"> A. Filters rows before grouping</label></li>
+                <li class="option-item"><label><input type="radio" name="q5" value="B"> B. Filters groups after grouping</label></li>
+                <li class="option-item"><label><input type="radio" name="q5" value="C"> C. Sorts records</label></li>
+                <li class="option-item"><label><input type="radio" name="q5" value="D"> D. Removes duplicate rows</label></li>
+            </ul>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question-card">
+            <div class="question-number">Question 6</div>
+            <div class="question-text">Which query correctly finds the second highest salary?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q6" value="A"> A. <pre>SELECT MAX(Salary) FROM Employee;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q6" value="B"> B. <pre>SELECT MAX(Salary) FROM Employee WHERE Salary < (SELECT MAX(Salary) FROM Employee);</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q6" value="C"> C. <pre>SELECT Salary FROM Employee LIMIT 2;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q6" value="D"> D. <pre>SELECT MIN(Salary) FROM Employee;</pre></label></li>
+            </ul>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question-card">
+            <div class="question-number">Question 7</div>
+            <div class="question-text">Which SQL function assigns a unique sequential number to every row?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q7" value="A"> A. RANK()</label></li>
+                <li class="option-item"><label><input type="radio" name="q7" value="B"> B. DENSE_RANK()</label></li>
+                <li class="option-item"><label><input type="radio" name="q7" value="C"> C. ROW_NUMBER()</label></li>
+                <li class="option-item"><label><input type="radio" name="q7" value="D"> D. COUNT()</label></li>
+            </ul>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question-card">
+            <div class="question-number">Question 8</div>
+            <pre>SELECT Name FROM Employee WHERE Name LIKE '_a%';</pre>
+            <div class="question-text">Which name matches this pattern?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q8" value="A"> A. Rahul</label></li>
+                <li class="option-item"><label><input type="radio" name="q8" value="B"> B. Aman</label></li>
+                <li class="option-item"><label><input type="radio" name="q8" value="C"> C. Ravi</label></li>
+                <li class="option-item"><label><input type="radio" name="q8" value="D"> D. Raj</label></li>
+            </ul>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question-card">
+            <div class="question-number">Question 9</div>
+            <div class="question-text">What will be the output of the following query?</div>
+            <pre>SELECT 10 + NULL;</pre>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q9" value="A"> A. 10</label></li>
+                <li class="option-item"><label><input type="radio" name="q9" value="B"> B. NULL</label></li>
+                <li class="option-item"><label><input type="radio" name="q9" value="C"> C. 0</label></li>
+                <li class="option-item"><label><input type="radio" name="q9" value="D"> D. Error</label></li>
+            </ul>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question-card">
+            <div class="question-number">Question 10</div>
+            <div class="question-text">Suppose the student table contains:</div>
+            <table class="data-table">
+                <thead><tr><th>ID</th><th>Name</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Rahul</td></tr>
+                    <tr><td>2</td><td>NULL</td></tr>
+                    <tr><td>3</td><td>Aman</td></tr>
+                </tbody>
+            </table>
+            <div class="question-text">What will be the output of the following query?</div>
+            <pre>SELECT COUNT(Name) FROM Student;</pre>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q10" value="A"> A. 2</label></li>
+                <li class="option-item"><label><input type="radio" name="q10" value="B"> B. 3</label></li>
+                <li class="option-item"><label><input type="radio" name="q10" value="C"> C. 1</label></li>
+                <li class="option-item"><label><input type="radio" name="q10" value="D"> D. NULL</label></li>
+            </ul>
+        </div>
+
+        <!-- Q11 -->
+        <div class="question-card">
+            <div class="question-number">Question 11</div>
+            <div class="question-text">Which query removes duplicate records?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q11" value="A"> A. <pre>SELECT ALL Name FROM Student;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q11" value="B"> B. <pre>SELECT DISTINCT Name FROM Student;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q11" value="C"> C. <pre>SELECT UNIQUE Name FROM Student;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q11" value="D"> D. <pre>SELECT DIFFERENT Name FROM Student;</pre></label></li>
+            </ul>
+        </div>
+
+        <!-- Q12 -->
+        <div class="question-card">
+            <div class="question-number">Question 12</div>
+            <div class="question-text">Which query correctly finds employees whose salary is greater than the average salary?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q12" value="A"> A. <pre>SELECT * FROM Employee WHERE Salary > AVG(Salary);</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q12" value="B"> B. <pre>SELECT * FROM Employee WHERE Salary > (SELECT AVG(Salary) FROM Employee);</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q12" value="C"> C. <pre>SELECT * FROM Employee HAVING Salary > AVG(Salary);</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q12" value="D"> D. <pre>SELECT * FROM Employee GROUP BY Salary;</pre></label></li>
+            </ul>
+        </div>
+
+        <!-- Q13 -->
+        <div class="question-card">
+            <div class="question-number">Question 13</div>
+            <div class="question-text">How many rows will be returned by a CROSS JOIN if Table A contains 5 rows and Table B contains 8 rows?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q13" value="A"> A. 13</label></li>
+                <li class="option-item"><label><input type="radio" name="q13" value="B"> B. 40</label></li>
+                <li class="option-item"><label><input type="radio" name="q13" value="C"> C. 5</label></li>
+                <li class="option-item"><label><input type="radio" name="q13" value="D"> D. 8</label></li>
+            </ul>
+        </div>
+
+        <!-- Q14 -->
+        <div class="question-card">
+            <div class="question-number">Question 14</div>
+            <div class="question-text">What will happen after executing the following query?</div>
+            <pre>DELETE FROM Student;</pre>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q14" value="A"> A. Deletes the table</label></li>
+                <li class="option-item"><label><input type="radio" name="q14" value="B"> B. Deletes all rows from the table</label></li>
+                <li class="option-item"><label><input type="radio" name="q14" value="C"> C. Deletes one row</label></li>
+                <li class="option-item"><label><input type="radio" name="q14" value="D"> D. Deletes the database</label></li>
+            </ul>
+        </div>
+
+        <!-- Q15 -->
+        <div class="question-card">
+            <div class="question-number">Question 15</div>
+            <div class="question-text">What will happen after executing the following query?</div>
+            <pre>TRUNCATE TABLE Student;</pre>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q15" value="A"> A. Deletes selected rows</label></li>
+                <li class="option-item"><label><input type="radio" name="q15" value="B"> B. Deletes all rows while keeping the table structure</label></li>
+                <li class="option-item"><label><input type="radio" name="q15" value="C"> C. Deletes the database</label></li>
+                <li class="option-item"><label><input type="radio" name="q15" value="D"> D. Deletes one row</label></li>
+            </ul>
+        </div>
+
+        <!-- Q16 -->
+        <div class="question-card">
+            <div class="question-number">Question 16</div>
+            <div class="question-text">Which query correctly returns the third highest salary using DENSE_RANK()?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q16" value="A"> A. <pre>SELECT Salary FROM Employee;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q16" value="B"> B. <pre>SELECT Salary FROM (SELECT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS rnk FROM Employee) t WHERE rnk = 3;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q16" value="C"> C. <pre>SELECT MAX(Salary) FROM Employee;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q16" value="D"> D. <pre>SELECT Salary FROM Employee LIMIT 3;</pre></label></li>
+            </ul>
+        </div>
+
+        <!-- Q17 -->
+        <div class="question-card">
+            <div class="question-number">Question 17</div>
+            <div class="question-text">Which clause executes first during SQL query processing?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q17" value="A"> A. SELECT</label></li>
+                <li class="option-item"><label><input type="radio" name="q17" value="B"> B. ORDER BY</label></li>
+                <li class="option-item"><label><input type="radio" name="q17" value="C"> C. FROM</label></li>
+                <li class="option-item"><label><input type="radio" name="q17" value="D"> D. LIMIT</label></li>
+            </ul>
+        </div>
+
+        <!-- Q18 -->
+        <div class="question-card">
+            <div class="question-number">Question 18</div>
+            <div class="question-text">What will be the output of the following query?</div>
+            <pre>SELECT LENGTH('DATABASE');</pre>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q18" value="A"> A. 7</label></li>
+                <li class="option-item"><label><input type="radio" name="q18" value="B"> B. 8</label></li>
+                <li class="option-item"><label><input type="radio" name="q18" value="C"> C. 9</label></li>
+                <li class="option-item"><label><input type="radio" name="q18" value="D"> D. 10</label></li>
+            </ul>
+        </div>
+
+        <!-- Q19 -->
+        <div class="question-card">
+            <div class="question-number">Question 19</div>
+            <div class="question-text">Which query correctly finds duplicate names?</div>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q19" value="A"> A. <pre>SELECT Name FROM Student;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q19" value="B"> B. <pre>SELECT Name, COUNT(*) FROM Student GROUP BY Name HAVING COUNT(*) > 1;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q19" value="C"> C. <pre>SELECT DISTINCT Name FROM Student;</pre></label></li>
+                <li class="option-item"><label><input type="radio" name="q19" value="D"> D. <pre>SELECT UNIQUE Name FROM Student;</pre></label></li>
+            </ul>
+        </div>
+
+        <!-- Q20 -->
+        <div class="question-card">
+            <div class="question-number">Question 20</div>
+            <div class="question-text">What will happen after executing the following statement?</div>
+            <pre>ROLLBACK;</pre>
+            <ul class="options-list">
+                <li class="option-item"><label><input type="radio" name="q20" value="A"> A. Permanently saves all changes</label></li>
+                <li class="option-item"><label><input type="radio" name="q20" value="B"> B. Deletes the database</label></li>
+                <li class="option-item"><label><input type="radio" name="q20" value="C"> C. Undoes all uncommitted changes in the current transaction</label></li>
+                <li class="option-item"><label><input type="radio" name="q20" value="D"> D. Creates a savepoint</label></li>
+            </ul>
+        </div>
+
+        <button type="button" class="submit-btn" onclick="gradeQuiz()">Submit Answers</button>
+    </form>
+
+    <!-- Spreadsheet Display Area -->
+    <div id="resultsSection" class="results-section">
+        <div class="score-summary" id="scoreSummary"></div>
+        
+        <div class="sheet-container">
+            <table class="sheet-table">
+                <thead>
+                    <tr>
+                        <th class="row-num-col"></th>
+                        <th>A (Question ID)</th>
+                        <th>B (Your Answer)</th>
+                        <th>C (Correct Answer)</th>
+                        <th>D (Status)</th>
+                    </tr>
+                </thead>
+                <tbody id="sheetBody">
+                    <!-- Spreadsheet cells generated here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const answerKey = {
+        q1: 'B', q2: 'C', q3: 'B', q4: 'C', q5: 'B',
+        q6: 'B', q7: 'C', q8: 'A', q9: 'B', q10: 'A',
+        q11: 'B', q12: 'B', q13: 'B', q14: 'B', q15: 'B',
+        q16: 'B', q17: 'C', q18: 'B', q19: 'B', q20: 'C'
+    };
+
+    function gradeQuiz() {
+        const form = document.getElementById('quizForm');
+        const sheetBody = document.getElementById('sheetBody');
+        sheetBody.innerHTML = ''; 
+        
+        let score = 0;
+        const totalQuestions = 20;
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            const fieldName = 'q' + i;
+            const selectedOpt = form.elements[fieldName].value;
+            const correctOpt = answerKey[fieldName];
+            
+            let status = "INCORRECT";
+            let statusClass = "status-fail";
+            
+            if (selectedOpt === correctOpt) {
+                score++;
+                status = "CORRECT";
+                statusClass = "status-pass";
+            }
+            
+            const displaySelected = selectedOpt ? selectedOpt : "Unanswered";
+
+            // Generate row mirroring structure of a clean Google Sheet
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="row-num-col">${i + 1}</td>
+                <td>Question ${i}</td>
+                <td>${displaySelected}</td>
+                <td>${correctOpt}</td>
+                <td class="${statusClass}">${status}</td>
+            `;
+            sheetBody.appendChild(row);
+        }
+
+        // Show Summary
+        const scoreText = `Quiz Results: You scored ${score} out of ${totalQuestions} (${(score/totalQuestions)*100}%)`;
+        document.getElementById('scoreSummary').innerText = scoreText;
+        
+        // Make spreadsheet block visible and scroll it into view smoothly
+        const resultsSection = document.getElementById('resultsSection');
+        resultsSection.style.display = 'block';
+        resultsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
